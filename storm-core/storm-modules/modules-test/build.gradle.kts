@@ -1,7 +1,8 @@
 setupShadowJar()
 
 dependencies {
-    compileOnly(Dependencies.SPIGOT)
     compileOnly(Dependencies.LOMBOK)
     annotationProcessor(Dependencies.LOMBOK)
+    compileOnly(Dependencies.SPIGOT)
+    implementation(project(":modules-api"))
 }
