@@ -1,6 +1,7 @@
 package storm.core.controllers;
 
 import lombok.SneakyThrows;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
@@ -15,7 +16,7 @@ public class CommonController {
     static LinkedHashMap<Module.ModulePolicy, Module> registeredModules = new LinkedHashMap<>();
 
     @SneakyThrows
-    public static void loadAllModules(StormModule<?> stormModule,
+    public static void loadAllModules(JavaPlugin plugin,
                                       String classPath,
                                       Module.ModulePolicy policy) {
 
@@ -31,7 +32,7 @@ public class CommonController {
 
             if (policy.equals(module.policy())) {
 
-                File moduleDir = new File(stormModule.getDataFolder() + "/modules/" + module.moduleName() + "_" + module.version());
+                File moduleDir = new File(plugin.getDataFolder() + "/modules/" + module.moduleName() + "_" + module.version());
 
                 if(!moduleDir.exists()) {
                     moduleDir.mkdirs();

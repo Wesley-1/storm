@@ -8,6 +8,6 @@ public class StormTest extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        CommonController.loadAllModules("storm.core.modules", Module.ModulePolicy.DEV);
+        CommonController.loadAllModules(this,"storm.core.modules", Module.ModulePolicy.DEV);
     }
 }
