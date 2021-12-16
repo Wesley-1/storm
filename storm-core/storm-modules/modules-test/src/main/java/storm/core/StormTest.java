@@ -1,13 +1,12 @@
 package storm.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import storm.core.annotations.Module;
-import storm.core.controllers.CommonController;
+import storm.core.controllers.ModuleController;
 
 public class StormTest extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        CommonController.loadAllModules(this,"storm.core.modules", Module.ModulePolicy.DEV);
+        new ModuleController("storm.core.modules", this).loadAllModules(StormModule.ModulePolicy.DEV);
     }
 }

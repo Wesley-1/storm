@@ -1,12 +1,15 @@
 package storm.core.modules;
 
+import org.bukkit.plugin.java.JavaPlugin;
 import storm.core.StormModule;
 import storm.core.StormTest;
-import storm.core.annotations.Module;
 
-@Module(moduleName = "Test1", version = "1.0.0", author = "Wesley", policy = Module.ModulePolicy.PROD)
+public class Test1 extends StormModule {
 
-public class Test1 extends StormModule<StormTest> {
+
+    protected Test1() {
+        super("Zlurpy", "Test1", "1.0.0", ModulePolicy.DEV, StormTest.getPlugin(StormTest.class));
+    }
 
     @Override
     public void onEnable() {
