@@ -8,41 +8,35 @@ import org.reflections.util.ConfigurationBuilder;
 import storm.core.StormModule;
 
 import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static storm.core.StormModule.ModulePolicy.DEV;
 import static storm.core.StormModule.ModulePolicy.TEST;
 
 public class ModuleController {
 
-    private final String classPath;
     private final JavaPlugin plugin;
     private final Reflections reflections;
-    private final LinkedHashMap<StormModule.ModulePolicy, StormModule> storedModules;
+    private final LinkedHashMap<StormModule.ModulePolicy, List<StormModule>> storedModules;
 
     public ModuleController(String classPath, JavaPlugin plugin) {
-        this.classPath = classPath;
         this.plugin = plugin;
 
         reflections = new Reflections(new ConfigurationBuilder()
-                .setUrls(ClasspathHelper.forPackage(this.classPath)));
+                .setUrls(ClasspathHelper.forPackage(classPath)));
 
         storedModules = new LinkedHashMap<>();
     }
 
     @SneakyThrows
     public void loadAllModules(StormModule.ModulePolicy policy) {
+        List<StormModule> loadedModules = new ArrayList<>();
         for (Class<? extends StormModule> stormModules : reflections.getSubTypesOf(StormModule.class)) {
             StormModule module = stormModules.newInstance();
 
-            switch (policy) {
-                case DEV, TEST, PROD -> storedModules.put(module.getPolicy(), module);
-            }
-
             if (policy.equals(module.getPolicy())) {
 
+                loadedModules.add(module);
                 File moduleDir = new File(plugin.getDataFolder() + "/modules/" + module.getModuleName());
 
                 if (!moduleDir.exists()) {
@@ -52,16 +46,19 @@ public class ModuleController {
                 module.onEnable();
             }
         }
+        storedModules.put(policy, loadedModules);
     }
 
     @SneakyThrows
     public void disableAllModules(StormModule.ModulePolicy policy) {
-        for (Map.Entry<StormModule.ModulePolicy, StormModule> module : storedModules.entrySet()) {
+        for (Map.Entry<StormModule.ModulePolicy, List<StormModule>> module : storedModules.entrySet()) {
+
             StormModule.ModulePolicy modulePolicy = module.getKey();
-            StormModule stormModule = module.getValue();
+            List<StormModule> stormModule = module.getValue();
 
             if (modulePolicy == policy) {
-                stormModule.onDisable();
+                stormModule.forEach(StormModule::onDisable);
+                storedModules.remove(policy);
             }
         }
     }
