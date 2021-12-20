@@ -1,3 +1,4 @@
+setupShadowJar()
 
 plugins {
     id("java")

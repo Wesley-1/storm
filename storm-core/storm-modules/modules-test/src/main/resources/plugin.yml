@@ -1,0 +1,3 @@
+name: Storm-Modules-Test
+main: storm.core.StormTest
+version: 1.0

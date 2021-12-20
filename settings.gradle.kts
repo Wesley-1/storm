@@ -1,10 +1,9 @@
 rootProject.name = "storm"
-
 setupStormModule(
     "storm-core",
     listOf(
-        Pair("storm-modules", listOf("modules-api", "modules-test")))
-)
+        Pair("storm-modules", listOf("modules-api", "modules-test")),
+        Pair("storm-files", listOf("files-test", "files-api"))))
 
 setupStormModule(
     "storm-server",

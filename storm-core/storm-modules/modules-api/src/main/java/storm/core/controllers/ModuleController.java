@@ -6,12 +6,8 @@ import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import storm.core.StormModule;
-
 import java.io.File;
 import java.util.*;
-
-import static storm.core.StormModule.ModulePolicy.DEV;
-import static storm.core.StormModule.ModulePolicy.TEST;
 
 public class ModuleController {
 
@@ -19,12 +15,9 @@ public class ModuleController {
     private final Reflections reflections;
     private final LinkedHashMap<StormModule.ModulePolicy, List<StormModule>> storedModules;
 
-    public ModuleController(String classPath, JavaPlugin plugin) {
+    public ModuleController(JavaPlugin plugin) {
         this.plugin = plugin;
-
-        reflections = new Reflections(new ConfigurationBuilder()
-                .setUrls(ClasspathHelper.forPackage(classPath)));
-
+        reflections = new Reflections(plugin.getClass().getPackageName());
         storedModules = new LinkedHashMap<>();
     }
 

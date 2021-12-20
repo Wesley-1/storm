@@ -3,6 +3,8 @@ package storm.core;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public abstract class StormModule {
 
     @Getter private final String author, moduleName, version;
@@ -19,6 +21,10 @@ public abstract class StormModule {
 
     public abstract void onEnable();
     public abstract void onDisable();
+
+    public File getModuleFolder() {
+        return new File(mainPlugin.getDataFolder() + "/modules/" + moduleName);
+    }
 
     public enum ModulePolicy {
         DEV,
