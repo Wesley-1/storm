@@ -3,7 +3,8 @@ setupStormModule(
     "storm-core",
     listOf(
         Pair("storm-modules", listOf("modules-api", "modules-test")),
-        Pair("storm-files", listOf("files-test", "files-api"))))
+        Pair("storm-files", listOf("files-test", "files-api")),
+        Pair("storm-utils", listOf("utils-test", "utils-api"))))
 
 setupStormModule(
     "storm-server",

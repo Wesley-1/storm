@@ -12,11 +12,10 @@ public class StormFiles extends JavaPlugin {
     @Override
     public void onEnable() {
         new StormFileManager(this).loadAllConfigs();
-
         Test.getFileConfiguration().getString("");
     }
 
-    public class Test extends StormConfig {
+    public static class Test extends StormConfig {
 
         /**
          * @param fileName This is for the files name
